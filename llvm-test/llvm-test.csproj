@@ -65,15 +65,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lexer.cs" />
+    <Compile Include="Parsing\Expressions\AdditionExpression.cs" />
+    <Compile Include="Parsing\Expressions\Expression.cs" />
+    <Compile Include="Parsing\Expressions\ExpressionType.cs" />
+    <Compile Include="Parsing\Expressions\IntegralLiteralExpression.cs" />
+    <Compile Include="Parsing\Lexer.cs" />
+    <Compile Include="Parsing\Parser.cs" />
+    <Compile Include="Parsing\Scopes\NamedVariable.cs" />
+    <Compile Include="Parsing\Scopes\NamedVariableNotFoundException.cs" />
+    <Compile Include="Parsing\Scopes\Scope.cs" />
+    <Compile Include="Parsing\StateMachine\State.cs" />
+    <Compile Include="Parsing\StateMachine\StringState.cs" />
+    <Compile Include="Parsing\StateMachine\SymbolState.cs" />
+    <Compile Include="Parsing\Visitable.cs" />
+    <Compile Include="Parsing\Visitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tokens\ErrorToken.cs" />
+    <Compile Include="Tokens\IdentifierToken.cs" />
     <Compile Include="Tokens\NumberToken.cs" />
     <Compile Include="Tokens\StringToken.cs" />
     <Compile Include="Tokens\SymbolToken.cs" />
     <Compile Include="Tokens\Token.cs" />
-    <Compile Include="Tokens\TokenBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

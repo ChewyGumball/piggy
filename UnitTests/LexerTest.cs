@@ -28,29 +28,29 @@ namespace UnitTests
         public void StringConstant()
         {
             Lexer l = makeLexer(@"""gjlskjdoijgnreojoij245%%  22446 *)()__ASDJlkj3lk1|\}{d  """);
-            testToken<SymbolToken, SymbolToken.Symbol>(l.next(), SymbolToken.Symbol.DoubleQuote);
-            testToken<StringToken, String>(l.next(), @"gjlskjdoijgnreojoij245%%  22446 *)()__ASDJlkj3lk1|\}{d  ");
-            testToken<SymbolToken, SymbolToken.Symbol>(l.next(), SymbolToken.Symbol.DoubleQuote);
+            testToken<SymbolToken, SymbolToken.Symbol>(l.consume(), SymbolToken.Symbol.DoubleQuote);
+            testToken<StringToken, String>(l.consume(), @"gjlskjdoijgnreojoij245%%  22446 *)()__ASDJlkj3lk1|\}{d  ");
+            testToken<SymbolToken, SymbolToken.Symbol>(l.consume(), SymbolToken.Symbol.DoubleQuote);
         }
 
         [TestMethod]
         public void StringThenOther()
         {
             Lexer l = makeLexer(@"""jhdf""38209""*""");
-            testToken<SymbolToken, SymbolToken.Symbol>(l.next(), SymbolToken.Symbol.DoubleQuote);
-            testToken<StringToken, String>(l.next(), @"jhdf");
-            testToken<SymbolToken, SymbolToken.Symbol>(l.next(), SymbolToken.Symbol.DoubleQuote);
-            testToken<NumberToken, long>(l.next(), 38209L);
-            testToken<SymbolToken, SymbolToken.Symbol>(l.next(), SymbolToken.Symbol.DoubleQuote);
-            testToken<StringToken, String>(l.next(), @"*");
-            testToken<SymbolToken, SymbolToken.Symbol>(l.next(), SymbolToken.Symbol.DoubleQuote);
+            testToken<SymbolToken, SymbolToken.Symbol>(l.consume(), SymbolToken.Symbol.DoubleQuote);
+            testToken<StringToken, String>(l.consume(), @"jhdf");
+            testToken<SymbolToken, SymbolToken.Symbol>(l.consume(), SymbolToken.Symbol.DoubleQuote);
+            testToken<NumberToken, long>(l.consume(), 38209L);
+            testToken<SymbolToken, SymbolToken.Symbol>(l.consume(), SymbolToken.Symbol.DoubleQuote);
+            testToken<StringToken, String>(l.consume(), @"*");
+            testToken<SymbolToken, SymbolToken.Symbol>(l.consume(), SymbolToken.Symbol.DoubleQuote);
         }
 
         [TestMethod]
         public void NumberConstant()
         {
             Lexer l = makeLexer(@"7491847700");
-            testToken<NumberToken, long>(l.next(), 7491847700L);
+            testToken<NumberToken, long>(l.consume(), 7491847700L);
         }
 
         [TestMethod]
@@ -61,12 +61,12 @@ namespace UnitTests
             foreach(String symbol in SymbolToken.SymbolTable.Keys)
             {
                 if (symbol == "\"") continue;
-                testToken<SymbolToken, SymbolToken.Symbol>(l.next(), SymbolToken.SymbolTable[symbol]);
+                testToken<SymbolToken, SymbolToken.Symbol>(l.consume(), SymbolToken.SymbolTable[symbol]);
             }
 
-            testToken<SymbolToken, SymbolToken.Symbol>(l.next(), SymbolToken.SymbolTable["\""]);
-            testToken<StringToken, String>(l.next(), @"");
-            testToken<ErrorToken, String>(l.next(), "Missing end quote for string.");
+            testToken<SymbolToken, SymbolToken.Symbol>(l.consume(), SymbolToken.SymbolTable["\""]);
+            testToken<StringToken, String>(l.consume(), @"");
+            testToken<ErrorToken, String>(l.consume(), "Missing end quote for string.");
         }
     }
 }

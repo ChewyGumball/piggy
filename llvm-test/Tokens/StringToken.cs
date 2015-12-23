@@ -8,7 +8,6 @@ namespace llvm_test.Tokens
 {
     public class StringToken : Token<String>
     {
-
         public StringToken(String value)
         {
             valid = true;
