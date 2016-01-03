@@ -65,32 +65,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parsing\Expressions\AdditionExpression.cs" />
+    <Compile Include="Parsing\Expressions\Arithmetic\AdditionExpression.cs" />
+    <Compile Include="Parsing\Expressions\Arithmetic\DivisionExpression.cs" />
+    <Compile Include="Parsing\Expressions\Arithmetic\MultiplicationExpression.cs" />
+    <Compile Include="Parsing\Expressions\Arithmetic\NegativeExpression.cs" />
+    <Compile Include="Parsing\Expressions\Arithmetic\SubtractionExpression.cs" />
+    <Compile Include="Parsing\Expressions\BinaryInfixExpression.cs" />
+    <Compile Include="Parsing\Expressions\Bitwise\BitwiseNotExpression.cs" />
+    <Compile Include="Parsing\Expressions\BlockExpression.cs" />
     <Compile Include="Parsing\Expressions\Expression.cs" />
     <Compile Include="Parsing\Expressions\ExpressionType.cs" />
-    <Compile Include="Parsing\Expressions\IntegralLiteralExpression.cs" />
+    <Compile Include="Parsing\Expressions\Literal\BooleanLiteralExpression.cs" />
+    <Compile Include="Parsing\Expressions\Literal\IntegralLiteralExpression.cs" />
+    <Compile Include="Parsing\Expressions\Literal\StringLiteralExpression.cs" />
+    <Compile Include="Parsing\Expressions\Logical\LogicalNotExpression.cs" />
+    <Compile Include="Parsing\Expressions\Names\VariableDeclarationExpression.cs" />
+    <Compile Include="Parsing\Expressions\Names\VariableReferenceExpression.cs" />
+    <Compile Include="Parsing\Expressions\Names\WhileLoopExpression.cs" />
+    <Compile Include="Parsing\Expressions\PrefixExpression.cs" />
+    <Compile Include="Parsing\Expressions\Tuples\TupleDeclarationExpression.cs" />
+    <Compile Include="Parsing\Expressions\Tuples\TupleDefinitionExpression.cs" />
     <Compile Include="Parsing\Lexer.cs" />
     <Compile Include="Parsing\Parser.cs" />
+    <Compile Include="Parsing\Parslets\ArithmeticParslets.cs" />
+    <Compile Include="Parsing\Parslets\BitwiseParslets.cs" />
+    <Compile Include="Parsing\Parslets\BracketParslets.cs" />
+    <Compile Include="Parsing\Parslets\DashParslets.cs" />
+    <Compile Include="Parsing\Parslets\LiteralParslets.cs" />
+    <Compile Include="Parsing\Parslets\LogicalParslets.cs" />
+    <Compile Include="Parsing\Parslets\NameParslets.cs" />
     <Compile Include="Parsing\Scopes\NamedVariable.cs" />
     <Compile Include="Parsing\Scopes\NamedVariableNotFoundException.cs" />
     <Compile Include="Parsing\Scopes\Scope.cs" />
-    <Compile Include="Parsing\StateMachine\State.cs" />
-    <Compile Include="Parsing\StateMachine\StringState.cs" />
-    <Compile Include="Parsing\StateMachine\SymbolState.cs" />
     <Compile Include="Parsing\Visitable.cs" />
     <Compile Include="Parsing\Visitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tokens\ErrorToken.cs" />
-    <Compile Include="Tokens\IdentifierToken.cs" />
-    <Compile Include="Tokens\NumberToken.cs" />
-    <Compile Include="Tokens\StringToken.cs" />
-    <Compile Include="Tokens\SymbolToken.cs" />
     <Compile Include="Tokens\Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

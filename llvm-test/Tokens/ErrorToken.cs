@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Tokens
 {
-    public class ErrorToken : Token<String>
+    public class ErrorToken : Token
     {
-        public ErrorToken(String message)
+        public ErrorToken(String message) : base(TokenType.Error, message)
         {
             valid = true;
-            value = message;
         }
     }
 }
