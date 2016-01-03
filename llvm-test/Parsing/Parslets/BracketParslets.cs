@@ -19,11 +19,11 @@ namespace llvm_test.Parsing.Parslets
             {
                 if(innerExpression is VariableDeclarationExpression)
                 {
-                    return NameParslets.tupleDeclaration(p, innerExpression);
+                    innerExpression = NameParslets.tupleDeclaration(p, innerExpression);
                 }
                 else
                 {
-                    return tupleDefinition(p, innerExpression);
+                    innerExpression = tupleDefinition(p, innerExpression);
                 }
             }
             p.skip(TokenType.RightRoundBracket);

@@ -9,6 +9,7 @@ using llvm_test.Parsing.Expressions.Arithmetic;
 using llvm_test.Parsing.Expressions.Names;
 using llvm_test.Parsing.Expressions.Literal;
 using llvm_test.Parsing.Expressions.Tuples;
+using llvm_test.Parsing.Expressions.Assignment;
 
 namespace UnitTests
 {
@@ -187,6 +188,56 @@ namespace UnitTests
             Assert.AreEqual(i.name, "g");
             Assert.AreEqual(j.name, "p");
             Assert.AreEqual(k.name, "t");
+        }
+
+        [TestMethod]
+        public void VariableAssignment()
+        {
+            Expression expression = parseStatement("a = 4;");
+            VariableAssignmentExpression a = assertTypeAndCast<VariableAssignmentExpression>(expression);
+            Assert.AreEqual("a", a.name);
+            IntegralLiteralExpression b = assertTypeAndCast<IntegralLiteralExpression>(a.value);
+            Assert.AreEqual(4, b.value);
+        }
+
+        [TestMethod]
+        public void VariableDeclarationAssignment()
+        {
+            Expression expression = parseStatement("a -> int = 4 + p;");
+            VariableDeclarationAssignmentExpression a = assertTypeAndCast<VariableDeclarationAssignmentExpression>(expression);
+            Assert.AreEqual("a", a.declaration.name);
+            Assert.AreEqual("int", a.declaration.typeName);
+
+            AdditionExpression b = assertTypeAndCast<AdditionExpression>(a.value);
+            IntegralLiteralExpression c = assertTypeAndCast<IntegralLiteralExpression>(b.left);
+            VariableReferenceExpression d = assertTypeAndCast<VariableReferenceExpression>(b.right);
+            Assert.AreEqual(4, c.value);
+            Assert.AreEqual("p", d.name);
+        }
+
+        [TestMethod]
+        public void TupleAssignment()
+        {
+            Expression expression = parseStatement("(a -> int, b -> FakeClass) = (4, p);");
+
+            TupleAssignmentExpression a = assertTypeAndCast<TupleAssignmentExpression>(expression);
+            Assert.AreEqual(2, a.names.members.Count);
+
+            VariableDeclarationExpression b = assertTypeAndCast<VariableDeclarationExpression>(a.names.members[0]);
+            VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.names.members[1]);
+
+            Assert.AreEqual("a", b.name);
+            Assert.AreEqual("int", b.typeName);
+            Assert.AreEqual("b", c.name);
+            Assert.AreEqual("FakeClass", c.typeName);
+
+            TupleDefinitionExpression d = assertTypeAndCast<TupleDefinitionExpression>(a.values);
+            Assert.AreEqual(2, d.members.Count);
+
+            IntegralLiteralExpression e = assertTypeAndCast<IntegralLiteralExpression>(d.members[0]);
+            VariableReferenceExpression f = assertTypeAndCast<VariableReferenceExpression>(d.members[1]);
+            Assert.AreEqual(4, e.value);
+            Assert.AreEqual("p", f.name);
         }
     }
 }

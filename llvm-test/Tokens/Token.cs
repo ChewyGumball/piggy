@@ -59,6 +59,8 @@ namespace llvm_test.Tokens
             { TokenType.Dash, 40},
             { TokenType.Star, 50},
             { TokenType.Slash, 50},
+            { TokenType.Equals, 60 },
+            { TokenType.LeftRoundBracket, 100 }
         };
 
         public static readonly Dictionary<String, TokenType> SymbolTable = new Dictionary<String, TokenType>

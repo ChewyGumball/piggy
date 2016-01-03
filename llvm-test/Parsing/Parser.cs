@@ -33,7 +33,7 @@ namespace llvm_test.Parsing
             { TokenType.Slash, ArithmeticParslets.division },
             { TokenType.Plus, ArithmeticParslets.addition },
             { TokenType.Dash, DashParslets.router },
-            //{ TokenType.Equals, NameParslets.assignment }
+            { TokenType.Equals, AssignmentParslets.assignment }
         };
 
         public Parser(Lexer lexer)

@@ -70,6 +70,9 @@
     <Compile Include="Parsing\Expressions\Arithmetic\MultiplicationExpression.cs" />
     <Compile Include="Parsing\Expressions\Arithmetic\NegativeExpression.cs" />
     <Compile Include="Parsing\Expressions\Arithmetic\SubtractionExpression.cs" />
+    <Compile Include="Parsing\Expressions\Assignment\TupleAssignmentExpression.cs" />
+    <Compile Include="Parsing\Expressions\Assignment\VariableAssignmentExpression.cs" />
+    <Compile Include="Parsing\Expressions\Assignment\VariableDeclarationAssignmentExpression.cs" />
     <Compile Include="Parsing\Expressions\BinaryInfixExpression.cs" />
     <Compile Include="Parsing\Expressions\Bitwise\BitwiseNotExpression.cs" />
     <Compile Include="Parsing\Expressions\BlockExpression.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="Parsing\Lexer.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Parsing\Parslets\ArithmeticParslets.cs" />
+    <Compile Include="Parsing\Parslets\AssignmentParslets.cs" />
     <Compile Include="Parsing\Parslets\BitwiseParslets.cs" />
     <Compile Include="Parsing\Parslets\BracketParslets.cs" />
     <Compile Include="Parsing\Parslets\DashParslets.cs" />
