@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions.Names
 {
-    class VariableReferenceExpression : Expression
+    public class VariableReferenceExpression : Expression
     {
         public String name { get; protected set; }
         public VariableReferenceExpression(String variableName)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions
 {
-    abstract class BinaryInfixExpression : Expression
+    public abstract class BinaryInfixExpression : Expression
     {
         public Expression left { get; protected set; }
         public Expression right { get; protected set; }

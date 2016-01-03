@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions.Arithmetic
 {
-    class AdditionExpression : BinaryInfixExpression
+    public class AdditionExpression : BinaryInfixExpression
     {
         public AdditionExpression(Expression left, Expression right) : base(left, right) { }
     }

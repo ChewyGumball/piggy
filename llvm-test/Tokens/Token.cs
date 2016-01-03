@@ -44,7 +44,6 @@ namespace llvm_test.Tokens
         Number,
         Name,
         Boolean,
-        String,
         Error,
         End
     };

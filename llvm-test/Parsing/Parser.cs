@@ -20,7 +20,7 @@ namespace llvm_test.Parsing
             { TokenType.Tilde, BitwiseParslets.bitwiseNot },
             { TokenType.Exclaimation, LogicalParslets.logicalNot },
             { TokenType.Number, LiteralParslets.numberLiteral },
-            { TokenType.String, LiteralParslets.stringLiteral },
+            { TokenType.DoubleQuote, LiteralParslets.stringLiteral },
             { TokenType.Boolean, LiteralParslets.booleanLiteral },
             { TokenType.Name, NameParslets.router },
             { TokenType.LeftRoundBracket, BracketParslets.roundBacketRouter },
@@ -72,6 +72,11 @@ namespace llvm_test.Parsing
         public bool skip(TokenType t)
         {
             return tokenStream.consume().type == t;
+        }
+
+        public Token consume()
+        {
+            return tokenStream.consume();
         }
     }
 }
