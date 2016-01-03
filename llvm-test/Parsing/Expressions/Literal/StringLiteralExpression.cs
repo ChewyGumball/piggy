@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions.Literal
 {
-    class StringLiteralExpression : Expression
+    public class StringLiteralExpression : Expression
     {
         public String value { get; private set; }
         public StringLiteralExpression(String value)

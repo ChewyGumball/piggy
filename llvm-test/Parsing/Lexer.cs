@@ -15,7 +15,6 @@ namespace llvm_test
         private static Regex digitChecker = new Regex(@"^\d+(\.\d+)?$");
 
         private StreamReader input;
-        private bool inStringConstant = false;
         private Queue<Token> tokens = new Queue<Token>();
 
 
@@ -76,7 +75,6 @@ namespace llvm_test
                 }
             }
             createToken(builder);
-            inStringConstant = false;
         }
         
         private void chewWhiteSpace()

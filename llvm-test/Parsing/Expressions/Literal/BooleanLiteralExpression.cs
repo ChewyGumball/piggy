@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions.Literal
 {
-    class BooleanLiteralExpression : Expression
+    public class BooleanLiteralExpression : Expression
     {
         public bool value { get; private set; }
         public BooleanLiteralExpression(bool value)

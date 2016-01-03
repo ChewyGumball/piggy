@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions
 {
-    class BlockExpression : Expression
+    public class BlockExpression : Expression
     {
-        List<Expression> innerExpressions;
+        public List<Expression> innerExpressions { get; protected set; }
         public BlockExpression(List<Expression> expressions)
         {
             innerExpressions = expressions;

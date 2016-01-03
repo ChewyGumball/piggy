@@ -8,7 +8,7 @@ namespace llvm_test.Parsing.Expressions.Tuples
 {
     public class TupleDeclarationExpression : Expression
     {
-        List<Expression> members;
+        public List<Expression> members { get; protected set; }
         public TupleDeclarationExpression(List<Expression> members)
         {
             this.members = members;

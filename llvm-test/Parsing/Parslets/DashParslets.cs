@@ -13,9 +13,10 @@ namespace llvm_test.Parsing.Parslets
     {
         public static Expression router(Parser p, Expression left, Token t)
         {
-            if(p.peek(TokenType.RightAngleBracket))
+            if(p.peek(TokenType.RightAngleBracket) && left is VariableReferenceExpression)
             {
-                return new VariableDeclarationExpression(left, p.parseExpression(0));
+                p.skip(TokenType.RightAngleBracket);                
+                return new VariableDeclarationExpression((left as VariableReferenceExpression).name, p.consume().value);
             }
             else
             {

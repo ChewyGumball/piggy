@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions.Names
 {
-    class WhileLoopExpression : Expression
+    public class WhileLoopExpression : Expression
     {
-        Expression condition;
-        BlockExpression loop;
+        public Expression condition { get; protected set; }
+        public BlockExpression loop { get; protected set; }
 
         public WhileLoopExpression(Expression condition, BlockExpression loop)
         {

@@ -32,7 +32,7 @@ namespace llvm_test.Parsing
             { TokenType.Star, ArithmeticParslets.multiplication },
             { TokenType.Slash, ArithmeticParslets.division },
             { TokenType.Plus, ArithmeticParslets.addition },
-            { TokenType.Dash, ArithmeticParslets.subtraction },
+            { TokenType.Dash, DashParslets.router },
             //{ TokenType.Equals, NameParslets.assignment }
         };
 
