@@ -1,4 +1,5 @@
 ﻿using llvm_test.Parsing.Expressions;
+using llvm_test.Parsing.Expressions.Functions;
 using llvm_test.Parsing.Expressions.Names;
 using llvm_test.Parsing.Expressions.Tuples;
 using llvm_test.Tokens;
@@ -57,6 +58,40 @@ namespace llvm_test.Parsing.Parslets
             }
 
             return new BlockExpression(expressions);
+        }
+
+        public static Expression functionDeclaration(Parser p, Expression left, Token t)
+        {
+            if (left is VariableReferenceExpression)
+            {
+                Expression arguments = roundBacketRouter(p, t);
+                if (arguments is TupleDeclarationExpression)
+                {
+                    p.skip(TokenType.Dash);
+                    p.skip(TokenType.RightAngleBracket);
+                    String returnType = p.consume().value;
+                    Expression body = p.parseExpression(0);
+                    if (body is BlockExpression)
+                    {
+                        return new FunctionExpression((left as VariableReferenceExpression).name, 
+                                                      arguments as TupleDeclarationExpression, 
+                                                      returnType, 
+                                                      body as BlockExpression);
+                    }
+                    else
+                    {
+                        throw new Exception("Function has invalid body!");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Function has invalid argument list!");
+                }
+            }
+            else
+            {
+                throw new Exception("Function has invalid name!");
+            }
         }
     }
 }
