@@ -1,5 +1,7 @@
 ﻿using llvm_test.Parsing.Expressions;
+using llvm_test.Parsing.Expressions.Functions;
 using llvm_test.Parsing.Expressions.Names;
+using llvm_test.Parsing.Expressions.Tuples;
 using llvm_test.Tokens;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,31 @@ namespace llvm_test.Parsing.Parslets
     {
         public static Expression router(Parser p, Expression left, Token t)
         {
-            if(p.peek(TokenType.RightAngleBracket) && left is VariableReferenceExpression)
+            if (p.peek(TokenType.RightAngleBracket))
             {
-                p.skip(TokenType.RightAngleBracket);                
-                return new VariableDeclarationExpression((left as VariableReferenceExpression).name, p.consume().value);
+                if (left is VariableReferenceExpression)
+                {
+                    p.skip(TokenType.RightAngleBracket);
+                    return new VariableDeclarationExpression((left as VariableReferenceExpression).name, p.consume().value);
+                }
+                else if(left is TupleDeclarationExpression)
+                {
+                    p.skip(TokenType.RightAngleBracket);
+                    String returnType = p.consume().value;
+                    Expression body = p.parseExpression(0);
+                    if (body is BlockExpression)
+                    {
+                        return new AnonymousFunctionExpression(left as TupleDeclarationExpression, returnType, body as BlockExpression);
+                    }
+                    else
+                    {
+                        throw new Exception("Function has invalid body!");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Can't tell what should happen after this dash!");
+                }
             }
             else
             {

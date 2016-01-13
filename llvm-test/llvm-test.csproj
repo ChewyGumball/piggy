@@ -78,6 +78,7 @@
     <Compile Include="Parsing\Expressions\BlockExpression.cs" />
     <Compile Include="Parsing\Expressions\Expression.cs" />
     <Compile Include="Parsing\Expressions\ExpressionType.cs" />
+    <Compile Include="Parsing\Expressions\Functions\AnonymousFunctionExpression.cs" />
     <Compile Include="Parsing\Expressions\Functions\FunctionExpression.cs" />
     <Compile Include="Parsing\Expressions\Literal\BooleanLiteralExpression.cs" />
     <Compile Include="Parsing\Expressions\Literal\IntegralLiteralExpression.cs" />

@@ -267,5 +267,31 @@ namespace UnitTests
             Assert.AreEqual("a", e.name);
             Assert.AreEqual(5, f.value);
         }
+
+        [TestMethod]
+        public void AnonymousFunctionDefinition()
+        {
+            Expression expression = parseExpression("(a -> int, b-> Banana) -> Platypus { a + 5; }");
+            AnonymousFunctionExpression a = assertTypeAndCast<AnonymousFunctionExpression>(expression);
+            
+            Assert.AreEqual("Platypus", a.returnType);
+            Assert.AreEqual(2, a.arguments.members.Count);
+            Assert.AreEqual(1, a.body.innerExpressions.Count);
+
+            VariableDeclarationExpression b = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[0]);
+            VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[1]);
+
+            Assert.AreEqual("a", b.name);
+            Assert.AreEqual("int", b.typeName);
+            Assert.AreEqual("b", c.name);
+            Assert.AreEqual("Banana", c.typeName);
+
+            AdditionExpression d = assertTypeAndCast<AdditionExpression>(a.body.innerExpressions[0]);
+            VariableReferenceExpression e = assertTypeAndCast<VariableReferenceExpression>(d.left);
+            IntegralLiteralExpression f = assertTypeAndCast<IntegralLiteralExpression>(d.right);
+
+            Assert.AreEqual("a", e.name);
+            Assert.AreEqual(5, f.value);
+        }
     }
 }
