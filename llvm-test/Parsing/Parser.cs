@@ -34,7 +34,9 @@ namespace llvm_test.Parsing
             { TokenType.Plus, ArithmeticParslets.addition },
             { TokenType.Dash, DashParslets.router },
             { TokenType.Equals, AssignmentParslets.assignment },
-            { TokenType.LeftRoundBracket, BracketParslets.functionDeclaration }
+            { TokenType.LeftRoundBracket, BracketParslets.functionDeclaration },
+            { TokenType.RightAngleBracket, LogicalParslets.greaterThan },
+            { TokenType.LeftAngleBracket, BracketParslets.angleBracketRouter }
         };
 
         public Parser(Lexer lexer)

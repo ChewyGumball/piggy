@@ -11,6 +11,7 @@ using llvm_test.Parsing.Expressions.Literal;
 using llvm_test.Parsing.Expressions.Tuples;
 using llvm_test.Parsing.Expressions.Assignment;
 using llvm_test.Parsing.Expressions.Functions;
+using llvm_test.Parsing.Expressions.Types;
 
 namespace UnitTests
 {
@@ -131,16 +132,16 @@ namespace UnitTests
             VariableDeclarationExpression e = assertTypeAndCast<VariableDeclarationExpression>(a.members[3]);
 
             Assert.AreEqual(b.name, "a");
-            Assert.AreEqual(b.typeName, "int");
+            Assert.AreEqual(b.typeName.name, "int");
 
             Assert.AreEqual(c.name, "b");
-            Assert.AreEqual(c.typeName, "FakeClass1");
+            Assert.AreEqual(c.typeName.name, "FakeClass1");
 
             Assert.AreEqual(d.name, "c");
-            Assert.AreEqual(d.typeName, "FakeClass2");
+            Assert.AreEqual(d.typeName.name, "FakeClass2");
 
             Assert.AreEqual(e.name, "d");
-            Assert.AreEqual(e.typeName, "String");
+            Assert.AreEqual(e.typeName.name, "String");
         }
 
         [TestMethod]
@@ -150,7 +151,7 @@ namespace UnitTests
 
             VariableDeclarationExpression a = assertTypeAndCast<VariableDeclarationExpression>(expression);
             Assert.AreEqual(a.name, "a");
-            Assert.AreEqual(a.typeName, "int");
+            Assert.AreEqual(a.typeName.name, "int");
         }
 
         [TestMethod]
@@ -207,7 +208,7 @@ namespace UnitTests
             Expression expression = parseStatement("a -> int = 4 + p;");
             VariableDeclarationAssignmentExpression a = assertTypeAndCast<VariableDeclarationAssignmentExpression>(expression);
             Assert.AreEqual("a", a.declaration.name);
-            Assert.AreEqual("int", a.declaration.typeName);
+            Assert.AreEqual("int", a.declaration.typeName.name);
 
             AdditionExpression b = assertTypeAndCast<AdditionExpression>(a.value);
             IntegralLiteralExpression c = assertTypeAndCast<IntegralLiteralExpression>(b.left);
@@ -228,9 +229,9 @@ namespace UnitTests
             VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.names.members[1]);
 
             Assert.AreEqual("a", b.name);
-            Assert.AreEqual("int", b.typeName);
+            Assert.AreEqual("int", b.typeName.name);
             Assert.AreEqual("b", c.name);
-            Assert.AreEqual("FakeClass", c.typeName);
+            Assert.AreEqual("FakeClass", c.typeName.name);
 
             TupleDefinitionExpression d = assertTypeAndCast<TupleDefinitionExpression>(a.values);
             Assert.AreEqual(2, d.members.Count);
@@ -256,9 +257,9 @@ namespace UnitTests
             VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[1]);
 
             Assert.AreEqual("a", b.name);
-            Assert.AreEqual("int", b.typeName);
+            Assert.AreEqual("int", b.typeName.name);
             Assert.AreEqual("b", c.name);
-            Assert.AreEqual("Banana", c.typeName);
+            Assert.AreEqual("Banana", c.typeName.name);
 
             AdditionExpression d = assertTypeAndCast<AdditionExpression>(a.body.innerExpressions[0]);
             VariableReferenceExpression e = assertTypeAndCast<VariableReferenceExpression>(d.left);
@@ -282,9 +283,9 @@ namespace UnitTests
             VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[1]);
 
             Assert.AreEqual("a", b.name);
-            Assert.AreEqual("int", b.typeName);
+            Assert.AreEqual("int", b.typeName.name);
             Assert.AreEqual("b", c.name);
-            Assert.AreEqual("Banana", c.typeName);
+            Assert.AreEqual("Banana", c.typeName.name);
 
             AdditionExpression d = assertTypeAndCast<AdditionExpression>(a.body.innerExpressions[0]);
             VariableReferenceExpression e = assertTypeAndCast<VariableReferenceExpression>(d.left);
@@ -292,6 +293,50 @@ namespace UnitTests
 
             Assert.AreEqual("a", e.name);
             Assert.AreEqual(5, f.value);
+        }
+        
+        [TestMethod]
+        public void AnonymousFunctionDefinitionAndAssignment()
+        {
+            Expression expression = parseExpression("anon -> Function<int,Banana, Platypus> = (a -> int, b -> Banana) -> Platypus { a + 5; }");
+            AnonymousFunctionExpression a = assertTypeAndCast<AnonymousFunctionExpression>(expression);
+
+            Assert.AreEqual("Platypus", a.returnType);
+            Assert.AreEqual(2, a.arguments.members.Count);
+            Assert.AreEqual(1, a.body.innerExpressions.Count);
+
+            VariableDeclarationExpression b = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[0]);
+            VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[1]);
+
+            Assert.AreEqual("a", b.name);
+            Assert.AreEqual("int", b.typeName.name);
+            Assert.AreEqual("b", c.name);
+            Assert.AreEqual("Banana", c.typeName.name);
+
+            AdditionExpression d = assertTypeAndCast<AdditionExpression>(a.body.innerExpressions[0]);
+            VariableReferenceExpression e = assertTypeAndCast<VariableReferenceExpression>(d.left);
+            IntegralLiteralExpression f = assertTypeAndCast<IntegralLiteralExpression>(d.right);
+
+            Assert.AreEqual("a", e.name);
+            Assert.AreEqual(5, f.value);
+        }
+
+        [TestMethod]
+        public void GenericTypeTest()
+        {
+            Expression expression = parseExpression("a -> Banana<t,p,Banana<t,d,g>>");
+            VariableDeclarationExpression a = assertTypeAndCast<VariableDeclarationExpression>(expression);
+            Assert.AreEqual("a", a.name);
+            GenericTypeName b = assertTypeAndCast<GenericTypeName>(a.typeName);
+
+            Assert.AreEqual("t", b.genericTypes[0].name);
+            Assert.AreEqual("p", b.genericTypes[1].name);
+            Assert.AreEqual("Banana", b.genericTypes[2].name);
+
+            GenericTypeName c = assertTypeAndCast<GenericTypeName>(b.genericTypes[2]);
+            Assert.AreEqual("t", c.genericTypes[0].name);
+            Assert.AreEqual("d", c.genericTypes[1].name);
+            Assert.AreEqual("g", c.genericTypes[2].name);
         }
     }
 }

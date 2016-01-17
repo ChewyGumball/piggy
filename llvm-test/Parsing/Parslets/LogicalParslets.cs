@@ -16,5 +16,10 @@ namespace llvm_test.Parsing.Parslets
         {
             return new LogicalNotExpression(p.parseExpression(t.precedence));
         }
+
+        public static Expression greaterThan(Parser p, Expression left, Token t)
+        {
+            return new GreaterThanExpression(left, p.parseExpression(t.precedence));
+        }
     }
 }

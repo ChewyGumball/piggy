@@ -1,7 +1,9 @@
 ﻿using llvm_test.Parsing.Expressions;
 using llvm_test.Parsing.Expressions.Functions;
+using llvm_test.Parsing.Expressions.Logical;
 using llvm_test.Parsing.Expressions.Names;
 using llvm_test.Parsing.Expressions.Tuples;
+using llvm_test.Parsing.Expressions.Types;
 using llvm_test.Tokens;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,26 @@ namespace llvm_test.Parsing.Parslets
             }
             p.skip(TokenType.RightRoundBracket);
             return innerExpression;
+        }
+
+        public static Expression angleBracketRouter(Parser p, Expression left, Token t)
+        {
+            Expression innerExpression = p.parseExpression(t.precedence);
+            if(p.peek(TokenType.Comma) || p.peek(TokenType.RightAngleBracket) || p.peek(TokenType.LeftAngleBracket))
+            {
+                if(innerExpression is VariableReferenceExpression)
+                {
+                    return parseGenericTypeName(p, (left as VariableReferenceExpression).name, (innerExpression as VariableReferenceExpression).name);
+                }
+                else
+                {
+                    throw new Exception("Improper Generic Type expression!");
+                }
+            }
+            else
+            {
+                return new LessThanExpression(left, innerExpression);
+            }
         }
 
         private static TupleDefinitionExpression tupleDefinition(Parser p, Expression left)
@@ -91,6 +113,54 @@ namespace llvm_test.Parsing.Parslets
             else
             {
                 throw new Exception("Function has invalid name!");
+            }
+        }
+
+        public static GenericTypeName parseGenericTypeName(Parser p, String typeName, String firstGenericType = null)
+        {
+            List<TypeName> genericTypes = new List<TypeName>();
+            if(firstGenericType != null)
+            {
+                if (p.peek(TokenType.LeftAngleBracket))
+                {
+                    genericTypes.Add(parseGenericTypeName(p, firstGenericType));
+                }
+                else
+                {
+                    genericTypes.Add(new TypeName(firstGenericType));
+                }
+            }
+
+            if(p.peek(TokenType.RightAngleBracket) && firstGenericType == null)
+            {
+                throw new Exception("Generic type declaration must have a non empty type list!");
+            }
+
+            do
+            {
+                p.skip(TokenType.LeftAngleBracket);
+                String innerTypeName = p.consume().value;
+                if (p.peek(TokenType.LeftAngleBracket))
+                {
+                    genericTypes.Add(parseGenericTypeName(p, innerTypeName));
+                }
+                else if (p.peek(TokenType.Comma) || p.peek(TokenType.RightAngleBracket))
+                {
+                    genericTypes.Add(new TypeName(innerTypeName));
+                }
+                else
+                {
+                    throw new Exception("Generic type is not a name!");
+                }
+            } while (p.peek(TokenType.Comma));
+
+            if (p.skip(TokenType.RightAngleBracket))
+            {
+                return new GenericTypeName(typeName, genericTypes);
+            }
+            else
+            {
+                throw new Exception("Generic type must end in a '>'!");
             }
         }
     }

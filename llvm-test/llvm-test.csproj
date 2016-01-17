@@ -83,6 +83,8 @@
     <Compile Include="Parsing\Expressions\Literal\BooleanLiteralExpression.cs" />
     <Compile Include="Parsing\Expressions\Literal\IntegralLiteralExpression.cs" />
     <Compile Include="Parsing\Expressions\Literal\StringLiteralExpression.cs" />
+    <Compile Include="Parsing\Expressions\Logical\GreaterThanExpression.cs" />
+    <Compile Include="Parsing\Expressions\Logical\LessThanExpression.cs" />
     <Compile Include="Parsing\Expressions\Logical\LogicalNotExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\VariableDeclarationExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\VariableReferenceExpression.cs" />
@@ -90,6 +92,8 @@
     <Compile Include="Parsing\Expressions\PrefixExpression.cs" />
     <Compile Include="Parsing\Expressions\Tuples\TupleDeclarationExpression.cs" />
     <Compile Include="Parsing\Expressions\Tuples\TupleDefinitionExpression.cs" />
+    <Compile Include="Parsing\Expressions\Types\GenericTypeName.cs" />
+    <Compile Include="Parsing\Expressions\Types\TypeName.cs" />
     <Compile Include="Parsing\Lexer.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Parsing\Parslets\ArithmeticParslets.cs" />

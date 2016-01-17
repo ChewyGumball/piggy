@@ -1,4 +1,5 @@
-﻿using System;
+﻿using llvm_test.Parsing.Expressions.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,8 @@ namespace llvm_test.Parsing.Expressions.Names
     public class VariableDeclarationExpression : Expression
     {
         public String name { get; protected set; }
-        public String typeName { get; protected set; }
-        public VariableDeclarationExpression(String name, String type)
+        public TypeName typeName { get; protected set; }
+        public VariableDeclarationExpression(String name, TypeName type)
         {
             this.name = name;
             this.typeName = type;
