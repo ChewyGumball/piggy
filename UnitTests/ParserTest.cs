@@ -299,7 +299,17 @@ namespace UnitTests
         public void AnonymousFunctionDefinitionAndAssignment()
         {
             Expression expression = parseExpression("anon -> Function<int,Banana, Platypus> = (a -> int, b -> Banana) -> Platypus { a + 5; }");
-            AnonymousFunctionExpression a = assertTypeAndCast<AnonymousFunctionExpression>(expression);
+            VariableDeclarationAssignmentExpression z = assertTypeAndCast<VariableDeclarationAssignmentExpression>(expression);
+            Assert.AreEqual("anon", z.declaration.name);
+            Assert.AreEqual("Function", z.declaration.typeName.name);
+
+            GenericTypeName y = assertTypeAndCast<GenericTypeName>(z.declaration.typeName);
+            Assert.AreEqual(3, y.genericTypes.Count);
+            Assert.AreEqual("int", y.genericTypes[0].name);
+            Assert.AreEqual("Banana", y.genericTypes[1].name);
+            Assert.AreEqual("Platypus", y.genericTypes[2].name);
+
+            AnonymousFunctionExpression a = assertTypeAndCast<AnonymousFunctionExpression>(z.value);
 
             Assert.AreEqual("Platypus", a.returnType);
             Assert.AreEqual(2, a.arguments.members.Count);
@@ -329,11 +339,13 @@ namespace UnitTests
             Assert.AreEqual("a", a.name);
             GenericTypeName b = assertTypeAndCast<GenericTypeName>(a.typeName);
 
+            Assert.AreEqual(3, b.genericTypes.Count);
             Assert.AreEqual("t", b.genericTypes[0].name);
             Assert.AreEqual("p", b.genericTypes[1].name);
             Assert.AreEqual("Banana", b.genericTypes[2].name);
 
             GenericTypeName c = assertTypeAndCast<GenericTypeName>(b.genericTypes[2]);
+            Assert.AreEqual(3, c.genericTypes.Count);
             Assert.AreEqual("t", c.genericTypes[0].name);
             Assert.AreEqual("d", c.genericTypes[1].name);
             Assert.AreEqual("g", c.genericTypes[2].name);
