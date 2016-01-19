@@ -80,12 +80,15 @@
     <Compile Include="Parsing\Expressions\ExpressionType.cs" />
     <Compile Include="Parsing\Expressions\Functions\AnonymousFunctionExpression.cs" />
     <Compile Include="Parsing\Expressions\Functions\FunctionExpression.cs" />
+    <Compile Include="Parsing\Expressions\IVisibilityExpression.cs" />
     <Compile Include="Parsing\Expressions\Literal\BooleanLiteralExpression.cs" />
     <Compile Include="Parsing\Expressions\Literal\IntegralLiteralExpression.cs" />
     <Compile Include="Parsing\Expressions\Literal\StringLiteralExpression.cs" />
     <Compile Include="Parsing\Expressions\Logical\GreaterThanExpression.cs" />
     <Compile Include="Parsing\Expressions\Logical\LessThanExpression.cs" />
     <Compile Include="Parsing\Expressions\Logical\LogicalNotExpression.cs" />
+    <Compile Include="Parsing\Expressions\Names\ClassDefinitionExpression.cs" />
+    <Compile Include="Parsing\Expressions\Names\GenericClassDefinitionExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\VariableDeclarationExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\VariableReferenceExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\WhileLoopExpression.cs" />

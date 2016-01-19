@@ -67,6 +67,10 @@ namespace llvm_test
                         }
                         tokenFormed = true;
                     }
+                    else if (Char.IsWhiteSpace(nextChar))
+                    {
+                        tokenFormed = true;
+                    }
                     else
                     {
                         builder.Append(nextChar);

@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions.Assignment
 {
-    public class VariableDeclarationAssignmentExpression : Expression
+    public class VariableDeclarationAssignmentExpression : Expression, IVisibilityExpression
     {
         public VariableDeclarationExpression declaration { get; protected set; }
         public Expression value { get; protected set; }
-        public VariableDeclarationAssignmentExpression(VariableDeclarationExpression declaration, Expression value)
+        public Visibility visibility { get; set; }
+
+        public VariableDeclarationAssignmentExpression(VariableDeclarationExpression declaration, Expression value, Visibility visibility = Visibility.None)
         {
             this.declaration = declaration;
             this.value = value;
+            this.visibility = visibility;
         }
     }
 }

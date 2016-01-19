@@ -7,19 +7,21 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions.Functions
 {
-    public class FunctionExpression : Expression
+    public class FunctionExpression : Expression, IVisibilityExpression
     {
         public String name { get; protected set; }
         public TupleDeclarationExpression arguments { get; protected set; }
         public String returnType { get; protected set; }
         public BlockExpression body { get; protected set; }
+        public Visibility visibility { get; set; }
 
-        public FunctionExpression(String name, TupleDeclarationExpression arguments, String returnType, BlockExpression body)
+        public FunctionExpression(String name, TupleDeclarationExpression arguments, String returnType, BlockExpression body, Visibility visibility = Visibility.None)
         {
             this.name = name;
             this.arguments = arguments;
             this.returnType = returnType;
             this.body = body;
+            this.visibility = visibility;
         }
     }
 }

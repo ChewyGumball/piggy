@@ -126,22 +126,18 @@ namespace UnitTests
 
             Assert.AreEqual(4, a.members.Count);
 
-            VariableDeclarationExpression b = assertTypeAndCast<VariableDeclarationExpression>(a.members[0]);
-            VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.members[1]);
-            VariableDeclarationExpression d = assertTypeAndCast<VariableDeclarationExpression>(a.members[2]);
-            VariableDeclarationExpression e = assertTypeAndCast<VariableDeclarationExpression>(a.members[3]);
-
-            Assert.AreEqual(b.name, "a");
-            Assert.AreEqual(b.typeName.name, "int");
-
-            Assert.AreEqual(c.name, "b");
-            Assert.AreEqual(c.typeName.name, "FakeClass1");
-
-            Assert.AreEqual(d.name, "c");
-            Assert.AreEqual(d.typeName.name, "FakeClass2");
-
-            Assert.AreEqual(e.name, "d");
-            Assert.AreEqual(e.typeName.name, "String");
+            Assert.AreEqual("a", a.members[0].name);
+            Assert.AreEqual("int", a.members[0].typeName.name);
+            Assert.IsNotInstanceOfType(a.members[0].typeName, typeof(GenericTypeName));
+            Assert.AreEqual("b", a.members[1].name);
+            Assert.AreEqual("FakeClass1", a.members[1].typeName.name);
+            Assert.IsNotInstanceOfType(a.members[1].typeName, typeof(GenericTypeName));
+            Assert.AreEqual("c", a.members[2].name);
+            Assert.AreEqual("FakeClass2", a.members[2].typeName.name);
+            Assert.IsNotInstanceOfType(a.members[2].typeName, typeof(GenericTypeName));
+            Assert.AreEqual("d", a.members[3].name);
+            Assert.AreEqual("String", a.members[3].typeName.name);
+            Assert.IsNotInstanceOfType(a.members[3].typeName, typeof(GenericTypeName));
         }
 
         [TestMethod]
@@ -225,14 +221,14 @@ namespace UnitTests
             TupleAssignmentExpression a = assertTypeAndCast<TupleAssignmentExpression>(expression);
             Assert.AreEqual(2, a.names.members.Count);
 
-            VariableDeclarationExpression b = assertTypeAndCast<VariableDeclarationExpression>(a.names.members[0]);
-            VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.names.members[1]);
+            Assert.AreEqual("a", a.names.members[0].name);
+            Assert.AreEqual("int", a.names.members[0].typeName.name);
+            Assert.IsNotInstanceOfType(a.names.members[0].typeName, typeof(GenericTypeName));
 
-            Assert.AreEqual("a", b.name);
-            Assert.AreEqual("int", b.typeName.name);
-            Assert.AreEqual("b", c.name);
-            Assert.AreEqual("FakeClass", c.typeName.name);
-
+            Assert.AreEqual("b", a.names.members[1].name);
+            Assert.AreEqual("FakeClass", a.names.members[1].typeName.name);
+            Assert.IsNotInstanceOfType(a.names.members[1].typeName, typeof(GenericTypeName));
+            
             TupleDefinitionExpression d = assertTypeAndCast<TupleDefinitionExpression>(a.values);
             Assert.AreEqual(2, d.members.Count);
 
@@ -253,13 +249,13 @@ namespace UnitTests
             Assert.AreEqual(2, a.arguments.members.Count);
             Assert.AreEqual(1, a.body.innerExpressions.Count);
 
-            VariableDeclarationExpression b = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[0]);
-            VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[1]);
+            Assert.AreEqual("a", a.arguments.members[0].name);
+            Assert.AreEqual("int", a.arguments.members[0].typeName.name);
+            Assert.IsNotInstanceOfType(a.arguments.members[0].typeName, typeof(GenericTypeName));
 
-            Assert.AreEqual("a", b.name);
-            Assert.AreEqual("int", b.typeName.name);
-            Assert.AreEqual("b", c.name);
-            Assert.AreEqual("Banana", c.typeName.name);
+            Assert.AreEqual("b", a.arguments.members[1].name);
+            Assert.AreEqual("Banana", a.arguments.members[1].typeName.name);
+            Assert.IsNotInstanceOfType(a.arguments.members[1].typeName, typeof(GenericTypeName));
 
             AdditionExpression d = assertTypeAndCast<AdditionExpression>(a.body.innerExpressions[0]);
             VariableReferenceExpression e = assertTypeAndCast<VariableReferenceExpression>(d.left);
@@ -279,13 +275,13 @@ namespace UnitTests
             Assert.AreEqual(2, a.arguments.members.Count);
             Assert.AreEqual(1, a.body.innerExpressions.Count);
 
-            VariableDeclarationExpression b = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[0]);
-            VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[1]);
+            Assert.AreEqual("a", a.arguments.members[0].name);
+            Assert.AreEqual("int", a.arguments.members[0].typeName.name);
+            Assert.IsNotInstanceOfType(a.arguments.members[0].typeName, typeof(GenericTypeName));
 
-            Assert.AreEqual("a", b.name);
-            Assert.AreEqual("int", b.typeName.name);
-            Assert.AreEqual("b", c.name);
-            Assert.AreEqual("Banana", c.typeName.name);
+            Assert.AreEqual("b", a.arguments.members[1].name);
+            Assert.AreEqual("Banana", a.arguments.members[1].typeName.name);
+            Assert.IsNotInstanceOfType(a.arguments.members[1].typeName, typeof(GenericTypeName));
 
             AdditionExpression d = assertTypeAndCast<AdditionExpression>(a.body.innerExpressions[0]);
             VariableReferenceExpression e = assertTypeAndCast<VariableReferenceExpression>(d.left);
@@ -315,13 +311,13 @@ namespace UnitTests
             Assert.AreEqual(2, a.arguments.members.Count);
             Assert.AreEqual(1, a.body.innerExpressions.Count);
 
-            VariableDeclarationExpression b = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[0]);
-            VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.arguments.members[1]);
+            Assert.AreEqual("a", a.arguments.members[0].name);
+            Assert.AreEqual("int", a.arguments.members[0].typeName.name);
+            Assert.IsNotInstanceOfType(a.arguments.members[0].typeName, typeof(GenericTypeName));
 
-            Assert.AreEqual("a", b.name);
-            Assert.AreEqual("int", b.typeName.name);
-            Assert.AreEqual("b", c.name);
-            Assert.AreEqual("Banana", c.typeName.name);
+            Assert.AreEqual("b", a.arguments.members[1].name);
+            Assert.AreEqual("Banana", a.arguments.members[1].typeName.name);
+            Assert.IsNotInstanceOfType(a.arguments.members[1].typeName, typeof(GenericTypeName));
 
             AdditionExpression d = assertTypeAndCast<AdditionExpression>(a.body.innerExpressions[0]);
             VariableReferenceExpression e = assertTypeAndCast<VariableReferenceExpression>(d.left);
@@ -349,6 +345,70 @@ namespace UnitTests
             Assert.AreEqual("t", c.genericTypes[0].name);
             Assert.AreEqual("d", c.genericTypes[1].name);
             Assert.AreEqual("g", c.genericTypes[2].name);
+        }
+
+        [TestMethod]
+        public void ClassTest()
+        {
+            Expression expression = parseExpression(@"class Test {
+                jelly -> int;
+                public belly -> Banana<int,int>;
+                p -> String = ""haha"";
+                
+                foopy(a -> int, b -> Banana) -> String {
+                    a = 5;
+                }
+            ");
+            ClassDefinitionExpression a = assertTypeAndCast<ClassDefinitionExpression>(expression);
+            Assert.AreEqual("Test", a.name);
+            Assert.AreEqual(4, a.members.Count);
+            Assert.AreEqual(Visibility.None, a.visibility);
+
+            VariableDeclarationExpression b = assertTypeAndCast<VariableDeclarationExpression>(a.members[0]);
+            VariableDeclarationExpression c = assertTypeAndCast<VariableDeclarationExpression>(a.members[1]);
+            VariableDeclarationAssignmentExpression d = assertTypeAndCast<VariableDeclarationAssignmentExpression>(a.members[2]);
+            FunctionExpression e = assertTypeAndCast<FunctionExpression>(a.members[3]);
+
+            Assert.AreEqual("jelly", b.name);
+            Assert.AreEqual("int", b.typeName.name);
+            Assert.IsNotInstanceOfType(b.typeName, typeof(GenericTypeName));
+            Assert.AreEqual(Visibility.None, b.visibility);
+
+            Assert.AreEqual("belly", c.name);
+            Assert.AreEqual("Banana", c.typeName.name);
+            Assert.AreEqual(Visibility.Public, c.visibility);
+            GenericTypeName f = assertTypeAndCast<GenericTypeName>(c.typeName);
+            Assert.AreEqual(2, f.genericTypes.Count);
+            Assert.AreEqual("int", f.genericTypes[0].name);
+            Assert.IsNotInstanceOfType(f.genericTypes[0], typeof(GenericTypeName));
+            Assert.AreEqual("int", f.genericTypes[1].name);
+            Assert.IsNotInstanceOfType(f.genericTypes[1], typeof(GenericTypeName));
+
+            Assert.AreEqual("p", d.declaration.name);
+            Assert.AreEqual("String", d.declaration.typeName.name);
+            Assert.IsNotInstanceOfType(d.declaration.typeName, typeof(GenericTypeName));
+
+            StringLiteralExpression g = assertTypeAndCast<StringLiteralExpression>(d.value);
+            Assert.AreEqual("haha", g.value);
+
+            Assert.AreEqual("foopy", e.name);
+            Assert.AreEqual(Visibility.None, e.visibility);
+            Assert.AreEqual("String", e.returnType);
+            Assert.AreEqual(2, e.arguments.members.Count);
+            Assert.AreEqual(1, e.body.innerExpressions.Count);
+
+            Assert.AreEqual("a", e.arguments.members[0].name);
+            Assert.AreEqual("int", e.arguments.members[0].typeName.name);
+            Assert.IsNotInstanceOfType(e.arguments.members[0].typeName, typeof(GenericTypeName));
+
+            Assert.AreEqual("b", e.arguments.members[1].name);
+            Assert.AreEqual("Banana", e.arguments.members[1].typeName.name);
+            Assert.IsNotInstanceOfType(e.arguments.members[1].typeName, typeof(GenericTypeName));
+
+            VariableAssignmentExpression h = assertTypeAndCast<VariableAssignmentExpression>(e.body.innerExpressions[0]);
+            Assert.AreEqual("a", h.name);
+            IntegralLiteralExpression i = assertTypeAndCast<IntegralLiteralExpression>(h.value);
+            Assert.AreEqual(5, i.value);
         }
     }
 }
