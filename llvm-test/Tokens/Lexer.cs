@@ -16,6 +16,8 @@ namespace llvm_test
 
         private StreamReader input;
         private Queue<Token> tokens = new Queue<Token>();
+        int lineNumber = 1;
+        int columnNumber = 1;
 
 
         public Lexer(Stream input)
@@ -45,8 +47,9 @@ namespace llvm_test
 
         private void processStream()
         {
-            chewWhiteSpace();
+            int chewedWhiteSpace = chewWhiteSpace();
             bool tokenFormed = false;
+
             StringBuilder builder = new StringBuilder();
             while (!tokenFormed)
             {
@@ -78,43 +81,56 @@ namespace llvm_test
                     }
                 }
             }
-            createToken(builder);
+            createToken(builder, chewedWhiteSpace);
+            columnNumber += builder.Length;
         }
         
-        private void chewWhiteSpace()
+        private int chewWhiteSpace()
         {
-            while(Char.IsWhiteSpace((char)input.Peek()))
+            int chewedWhiteSpace = 0;
+            char nextCharacter = (char)input.Peek();
+            while(Char.IsWhiteSpace(nextCharacter))
             {
                 input.Read();
+                chewedWhiteSpace++;
+                columnNumber++;
+
+                if (nextCharacter == '\n')
+                {
+                    lineNumber++;
+                    columnNumber = 1;
+                }
+
+                nextCharacter = (char)input.Peek();
             }
+            return chewedWhiteSpace;
         }
 
-        public void createToken(StringBuilder builder)
+        public void createToken(StringBuilder builder, int preceedingWhiteSpace)
         {
             String tokenValue = builder.ToString();
             if (builder.Length > 0)
             {
-                tokenValue = tokenValue.Trim();
                 if (Token.SymbolTable.ContainsKey(tokenValue))
                 {
-                    tokens.Enqueue(new Token(Token.SymbolTable[tokenValue], tokenValue));
+                    tokens.Enqueue(new Token(Token.SymbolTable[tokenValue], tokenValue, lineNumber, columnNumber, preceedingWhiteSpace));
                 }
                 else if (digitChecker.IsMatch(tokenValue))
                 {
-                    tokens.Enqueue(new Token(TokenType.Number, tokenValue));
+                    tokens.Enqueue(new Token(TokenType.Number, tokenValue, lineNumber, columnNumber, preceedingWhiteSpace));
                 }
                 else if(tokenValue == "true" || tokenValue == "false")
                 {
-                    tokens.Enqueue(new Token(TokenType.Boolean, tokenValue));
+                    tokens.Enqueue(new Token(TokenType.Boolean, tokenValue, lineNumber, columnNumber, preceedingWhiteSpace));
                 }
                 else
                 {
-                    tokens.Enqueue(new Token(TokenType.Name, tokenValue));
+                    tokens.Enqueue(new Token(TokenType.Name, tokenValue, lineNumber, columnNumber, preceedingWhiteSpace));
                 }
             }
             else
             {
-                tokens.Enqueue(new Token(TokenType.End, ""));
+                tokens.Enqueue(new Token(TokenType.End, "", lineNumber, columnNumber, preceedingWhiteSpace));
             }
         }
     }
