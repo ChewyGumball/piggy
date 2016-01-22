@@ -245,7 +245,8 @@ namespace UnitTests
             FunctionExpression a = assertTypeAndCast<FunctionExpression>(expression);
 
             Assert.AreEqual("foo", a.name);
-            Assert.AreEqual("Platypus", a.returnType);
+            Assert.AreEqual("Platypus", a.returnType.name);
+            Assert.IsNotInstanceOfType(a.returnType, typeof(GenericTypeName));
             Assert.AreEqual(2, a.arguments.members.Count);
             Assert.AreEqual(1, a.body.innerExpressions.Count);
 
@@ -271,7 +272,8 @@ namespace UnitTests
             Expression expression = parseExpression("(a -> int, b-> Banana) -> Platypus { a + 5; }");
             AnonymousFunctionExpression a = assertTypeAndCast<AnonymousFunctionExpression>(expression);
             
-            Assert.AreEqual("Platypus", a.returnType);
+            Assert.AreEqual("Platypus", a.returnType.name);
+            Assert.IsNotInstanceOfType(a.returnType, typeof(GenericTypeName));
             Assert.AreEqual(2, a.arguments.members.Count);
             Assert.AreEqual(1, a.body.innerExpressions.Count);
 
@@ -296,8 +298,8 @@ namespace UnitTests
         {
             Expression expression = parseExpression("anon -> Function<int,Banana, Platypus> = (a -> int, b -> Banana) -> Platypus { a + 5; }");
             VariableDeclarationAssignmentExpression z = assertTypeAndCast<VariableDeclarationAssignmentExpression>(expression);
-            Assert.AreEqual("anon", z.declaration.name);
-            Assert.AreEqual("Function", z.declaration.typeName.name);
+            Assert.AreEqual("anon", z.declaration.name);            Assert.AreEqual("Function", z.declaration.typeName.name);
+            
 
             GenericTypeName y = assertTypeAndCast<GenericTypeName>(z.declaration.typeName);
             Assert.AreEqual(3, y.genericTypes.Count);
@@ -307,7 +309,8 @@ namespace UnitTests
 
             AnonymousFunctionExpression a = assertTypeAndCast<AnonymousFunctionExpression>(z.value);
 
-            Assert.AreEqual("Platypus", a.returnType);
+            Assert.AreEqual("Platypus", a.returnType.name);
+            Assert.IsNotInstanceOfType(a.returnType, typeof(GenericTypeName));
             Assert.AreEqual(2, a.arguments.members.Count);
             Assert.AreEqual(1, a.body.innerExpressions.Count);
 
@@ -393,7 +396,8 @@ namespace UnitTests
 
             Assert.AreEqual("foopy", e.name);
             Assert.AreEqual(Visibility.None, e.visibility);
-            Assert.AreEqual("String", e.returnType);
+            Assert.AreEqual("String", e.returnType.name);
+            Assert.IsNotInstanceOfType(e.returnType, typeof(GenericTypeName));
             Assert.AreEqual(2, e.arguments.members.Count);
             Assert.AreEqual(1, e.body.innerExpressions.Count);
 

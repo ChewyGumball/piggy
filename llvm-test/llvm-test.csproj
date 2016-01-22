@@ -97,7 +97,7 @@
     <Compile Include="Parsing\Expressions\Tuples\TupleDefinitionExpression.cs" />
     <Compile Include="Parsing\Expressions\Types\GenericTypeName.cs" />
     <Compile Include="Parsing\Expressions\Types\TypeName.cs" />
-    <Compile Include="Parsing\Lexer.cs" />
+    <Compile Include="Tokens\Lexer.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Parsing\Parslets\ArithmeticParslets.cs" />
     <Compile Include="Parsing\Parslets\AssignmentParslets.cs" />

@@ -36,9 +36,9 @@ namespace llvm_test.Parsing.Parslets
         public static Expression angleBracketRouter(Parser p, Expression left, Token t)
         {
             Expression innerExpression = p.parseExpression(t.precedence);
-            if(p.peek(TokenType.Comma) || p.peek(TokenType.RightAngleBracket) || p.peek(TokenType.LeftAngleBracket))
+            if (t.preceedingWhiteSpace == 0 && (p.peek(TokenType.Comma) || p.peek(TokenType.RightAngleBracket) || p.peek(TokenType.LeftAngleBracket)))
             {
-                if(innerExpression is VariableReferenceExpression)
+                if (innerExpression is VariableReferenceExpression)
                 {
                     return parseGenericTypeName(p, (left as VariableReferenceExpression).name, (innerExpression as VariableReferenceExpression).name);
                 }
@@ -91,7 +91,7 @@ namespace llvm_test.Parsing.Parslets
                 {
                     p.skip(TokenType.Dash);
                     p.skip(TokenType.RightAngleBracket);
-                    String returnType = p.consume().value;
+                    TypeName returnType = DashParslets.getTypeName(p);
                     Expression body = p.parseExpression(0);
                     if (body is BlockExpression)
                     {
@@ -123,7 +123,14 @@ namespace llvm_test.Parsing.Parslets
             {
                 if (p.peek(TokenType.LeftAngleBracket))
                 {
-                    genericTypes.Add(parseGenericTypeName(p, firstGenericType));
+                    if(p.peekWhitespace(0))
+                    {
+                        genericTypes.Add(parseGenericTypeName(p, firstGenericType));
+                    }
+                    else
+                    {
+                        throw new Exception("Improper Generic Type expression!");
+                    }
                 }
                 else
                 {
@@ -139,10 +146,18 @@ namespace llvm_test.Parsing.Parslets
             do
             {
                 p.skip(TokenType.LeftAngleBracket);
-                String innerTypeName = p.consume().value;
+                Token innerToken = p.consume();
+                String innerTypeName = innerToken.value;
                 if (p.peek(TokenType.LeftAngleBracket))
                 {
-                    genericTypes.Add(parseGenericTypeName(p, innerTypeName));
+                    if (p.peekWhitespace(0))
+                    {
+                        genericTypes.Add(parseGenericTypeName(p, innerTypeName));
+                    }
+                    else
+                    {
+                        throw new Exception("Improper Generic Type expression! [Line: " + innerToken.lineNumber + ", Column: " + innerToken.columnNumber + "]");
+                    }
                 }
                 else if (p.peek(TokenType.Comma) || p.peek(TokenType.RightAngleBracket))
                 {

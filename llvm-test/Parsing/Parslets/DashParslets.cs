@@ -16,33 +16,18 @@ namespace llvm_test.Parsing.Parslets
     {
         public static Expression router(Parser p, Expression left, Token t)
         {
-            if (p.peek(TokenType.RightAngleBracket))
+            if (p.peek(TokenType.RightAngleBracket) && p.peekWhitespace(0))
             {
                 if (left is VariableReferenceExpression)
                 {
                     p.skip(TokenType.RightAngleBracket);
-                    Expression type = p.parseExpression(Token.precedenceTable[TokenType.Equals] + 1);
-                    if (type is VariableReferenceExpression)
-                    {
-                        if (p.peek(TokenType.LeftAngleBracket))
-                        {
-                            GenericTypeName typeName = BracketParslets.parseGenericTypeName(p, (type as VariableReferenceExpression).name);
-                            return new VariableDeclarationExpression((left as VariableReferenceExpression).name, typeName);
-                        }
-                        else
-                        {
-                            return new VariableDeclarationExpression((left as VariableReferenceExpression).name, new TypeName((type as VariableReferenceExpression).name));
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("Variable declaration has an invalid type!");
-                    }
+                    TypeName type = getTypeName(p);
+                    return new VariableDeclarationExpression((left as VariableReferenceExpression).name, type);
                 }
                 else if(left is TupleDeclarationExpression)
                 {
                     p.skip(TokenType.RightAngleBracket);
-                    String returnType = p.consume().value;
+                    TypeName returnType = getTypeName(p);
                     Expression body = p.parseExpression(0);
                     if (body is BlockExpression)
                     {
@@ -61,6 +46,34 @@ namespace llvm_test.Parsing.Parslets
             else
             {
                 return ArithmeticParslets.subtraction(p, left, t);
+            }
+        }
+
+        public static TypeName getTypeName(Parser p)
+        {
+            Expression type = p.parseExpression(Token.precedenceTable[TokenType.Equals] + 1);
+            if (type is VariableReferenceExpression)
+            {
+                if (p.peek(TokenType.LeftAngleBracket))
+                {
+                    Expression typeName = BracketParslets.angleBracketRouter(p, type, p.consume());
+                    if (!(typeName is GenericTypeName))
+                    {
+                        throw new Exception("Generic types must not have a space between the type name and the '<' character.");
+                    }
+                    else
+                    {
+                        return typeName as TypeName;
+                    }
+                }
+                else
+                {
+                    return new TypeName((type as VariableReferenceExpression).name);
+                }
+            }
+            else
+            {
+                throw new Exception("Invalid type name!");
             }
         }
     }

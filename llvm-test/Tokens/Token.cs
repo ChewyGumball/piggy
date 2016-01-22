@@ -115,17 +115,24 @@ namespace llvm_test.Tokens
         public String value { get; protected set; }
         public bool valid { get; protected set; }
 
+        public int lineNumber { get; protected set; }
+        public int columnNumber { get; protected set; }
+        public int preceedingWhiteSpace { get; protected set; }
+
 
         public int precedence
         {
             get { return precedenceTable[type]; }
         }
 
-        public Token(TokenType type, String value)
+        public Token(TokenType type, String value, int lineNumber = 0, int columnNumber = 0, int preceedingWhiteSpace = 0)
         {
             this.type = type;
             this.value = value;
             this.valid = true;
+            this.lineNumber = lineNumber;
+            this.columnNumber = columnNumber;
+            this.preceedingWhiteSpace = preceedingWhiteSpace;
         }
     }
 }
