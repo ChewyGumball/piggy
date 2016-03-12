@@ -15,5 +15,21 @@ namespace llvm_test.Parsing.Expressions.Names
         {
             genericTypes = name.genericTypes;
         }
+
+        public override string print(int indentation = 0)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append('\t', indentation);
+            b.AppendFormat("(Generic Class Definition [name = {0}, visibility = {1}, types = {2}])", name, visibility, String.Join(",", genericTypes.Select(x => x.print()))).AppendLine();
+            b.Append('\t', indentation);
+            b.AppendLine("[Members]");
+
+            foreach (Expression member in members)
+            {
+                b.Append(member.print(indentation + 1));
+            }
+
+            return b.ToString();
+        }
     }
 }

@@ -78,6 +78,7 @@ namespace llvm_test.Parsing.Parslets
             {
                 expressions.Add(p.parseStatement());
             }
+            p.skip(TokenType.RightCurlyBracket);
 
             return new BlockExpression(expressions);
         }
@@ -87,6 +88,11 @@ namespace llvm_test.Parsing.Parslets
             if (left is VariableReferenceExpression)
             {
                 Expression arguments = roundBacketRouter(p, t);
+                if (arguments is VariableDeclarationExpression)
+                {
+                    arguments = new TupleDeclarationExpression(new List<VariableDeclarationExpression>() { arguments as VariableDeclarationExpression });
+                }
+
                 if (arguments is TupleDeclarationExpression)
                 {
                     p.skip(TokenType.Dash);
@@ -119,11 +125,11 @@ namespace llvm_test.Parsing.Parslets
         public static GenericTypeName parseGenericTypeName(Parser p, String typeName, String firstGenericType = null)
         {
             List<TypeName> genericTypes = new List<TypeName>();
-            if(firstGenericType != null)
+            if (firstGenericType != null)
             {
                 if (p.peek(TokenType.LeftAngleBracket))
                 {
-                    if(p.peekWhitespace(0))
+                    if (p.peekWhitespace(0))
                     {
                         genericTypes.Add(parseGenericTypeName(p, firstGenericType));
                     }
@@ -137,37 +143,45 @@ namespace llvm_test.Parsing.Parslets
                     genericTypes.Add(new TypeName(firstGenericType));
                 }
             }
-
-            if(p.peek(TokenType.RightAngleBracket) && firstGenericType == null)
+            else
             {
-                throw new Exception("Generic type declaration must have a non empty type list!");
-            }
-
-            do
-            {
-                p.skip(TokenType.LeftAngleBracket);
-                Token innerToken = p.consume();
-                String innerTypeName = innerToken.value;
                 if (p.peek(TokenType.LeftAngleBracket))
                 {
-                    if (p.peekWhitespace(0))
+                    p.skip(TokenType.LeftAngleBracket);
+                }
+                if (p.peek(TokenType.RightAngleBracket))
+                {
+                    throw new Exception("Generic type declaration must have a non empty type list!");
+                }
+            }
+
+            if (!p.peek(TokenType.RightAngleBracket))
+            {
+                do
+                {
+                    Token innerToken = p.consume();
+                    String innerTypeName = innerToken.value;
+                    if (p.peek(TokenType.LeftAngleBracket))
                     {
-                        genericTypes.Add(parseGenericTypeName(p, innerTypeName));
+                        if (p.peekWhitespace(0))
+                        {
+                            genericTypes.Add(parseGenericTypeName(p, innerTypeName));
+                        }
+                        else
+                        {
+                            throw new Exception("Improper Generic Type expression! [Line: " + innerToken.lineNumber + ", Column: " + innerToken.columnNumber + "]");
+                        }
+                    }
+                    else if (p.peek(TokenType.Comma) || p.peek(TokenType.RightAngleBracket))
+                    {
+                        genericTypes.Add(new TypeName(innerTypeName));
                     }
                     else
                     {
-                        throw new Exception("Improper Generic Type expression! [Line: " + innerToken.lineNumber + ", Column: " + innerToken.columnNumber + "]");
+                        throw new Exception("Generic type is not a name!");
                     }
-                }
-                else if (p.peek(TokenType.Comma) || p.peek(TokenType.RightAngleBracket))
-                {
-                    genericTypes.Add(new TypeName(innerTypeName));
-                }
-                else
-                {
-                    throw new Exception("Generic type is not a name!");
-                }
-            } while (p.peek(TokenType.Comma));
+                } while (p.peek(TokenType.Comma));
+            }
 
             if (p.skip(TokenType.RightAngleBracket))
             {

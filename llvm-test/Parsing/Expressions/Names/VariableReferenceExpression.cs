@@ -13,5 +13,14 @@ namespace llvm_test.Parsing.Expressions.Names
         {
             name = variableName;
         }
+
+        public override string print(int indentation = 0)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append('\t', indentation);
+            b.AppendFormat("(Variable Reference [name = {0}])", name).AppendLine();
+
+            return b.ToString();
+        }
     }
 }

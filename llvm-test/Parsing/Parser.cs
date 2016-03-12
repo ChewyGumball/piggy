@@ -44,6 +44,18 @@ namespace llvm_test.Parsing
             tokenStream = lexer;
         }
 
+        public List<Expression> parse()
+        {
+            List<Expression> expressions = new List<Expression>();
+            while(tokenStream.peek().type != TokenType.End)
+            {
+                expressions.Add(parseExpression(0));
+                Token t = tokenStream.peek();
+            }
+
+            return expressions;
+        }
+
         public Expression parseExpression(int currentPrecedence)
         {
             Token nextToken = tokenStream.consume();

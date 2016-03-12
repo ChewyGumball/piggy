@@ -13,5 +13,15 @@ namespace llvm_test.Parsing.Expressions
         {
             innerExpressions = expressions;
         }
+
+        public override string print(int indentation = 0)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append('\t', indentation);
+            b.AppendLine("(Block)");
+            innerExpressions.ForEach(x => b.Append(x.print(indentation + 1)));
+
+            return b.ToString();
+        }
     }
 }

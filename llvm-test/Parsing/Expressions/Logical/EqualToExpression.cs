@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions.Logical
 {
-    class LogicalNotExpression : PrefixExpression
+    public class EqualToExpression : BinaryInfixExpression
     {
-        public LogicalNotExpression(Expression value) : base(value) { }
+        public EqualToExpression(Expression left, Expression right) : base(left, right) { }
 
-        public override string print(int indentation = 0)
+        public override String print(int indentation = 0)
         {
             StringBuilder b = new StringBuilder();
             b.Append('\t', indentation);
-            b.AppendLine("(Logical Not Expression)");
+            b.AppendLine("(Equal To Comparison Expression)");
             b.Append(base.print(indentation));
 
             return b.ToString();

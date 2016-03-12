@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace llvm_test.Parsing.Expressions.Names
 {
-    public class WhileLoopExpression : Expression
+    class IfExpression : Expression
     {
         public Expression condition { get; protected set; }
-        public BlockExpression loop { get; protected set; }
+        public BlockExpression body { get; protected set; }
 
-        public WhileLoopExpression(Expression condition, BlockExpression loop)
+        public IfExpression(Expression condition, BlockExpression body)
         {
             this.condition = condition;
-            this.loop = loop;
+            this.body = body;
         }
 
         public override string print(int indentation = 0)
         {
             StringBuilder b = new StringBuilder();
             b.Append('\t', indentation);
-            b.AppendLine("(While Loop)");
+            b.AppendLine("(If Statement)");
             b.Append('\t', indentation);
             b.AppendLine("[Condition]");
             b.Append(condition.print(indentation + 1));
             b.Append('\t', indentation);
             b.AppendLine("[Body]");
-            b.Append(loop.print(indentation + 1));
+            b.Append(body.print(indentation + 1));
 
             return b.ToString();
         }

@@ -13,5 +13,10 @@ namespace llvm_test.Parsing.Expressions.Types
         {
             this.genericTypes = genericTypes;
         }
+
+        public override string print(int indentation = 0)
+        {
+            return String.Format("{0}<{1}>", name, String.Join(",",genericTypes.Select(x => x.print())));
+        }
     }
 }

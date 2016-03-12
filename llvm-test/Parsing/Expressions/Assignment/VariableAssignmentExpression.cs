@@ -16,5 +16,17 @@ namespace llvm_test.Parsing.Expressions.Assignment
             this.name = name;
             this.value = value;
         }
+
+        public override string print(int indentation = 0)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append('\t', indentation);
+            b.AppendFormat("(Variable Assignment [name = {0}])", name).AppendLine();
+            b.Append('\t', indentation);
+            b.AppendLine("[Value]");
+            b.Append(value.print(indentation + 1));
+
+            return b.ToString();
+        }
     }
 }

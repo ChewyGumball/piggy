@@ -19,5 +19,14 @@ namespace llvm_test.Parsing.Expressions.Names
             this.typeName = type;
             this.visibility = visibility;
         }
+
+        public override string print(int indentation = 0)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append('\t', indentation);
+            b.AppendFormat("(Variable Declaration [name = {0}, visibility = {1}, type = {2}])", name, visibility, typeName.print()).AppendLine();
+
+            return b.ToString();
+        }
     }
 }

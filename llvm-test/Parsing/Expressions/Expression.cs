@@ -13,5 +13,6 @@ namespace llvm_test.Parsing.Expressions
         {
             visitor.visit((dynamic)this);
         }
+        public abstract String print(int indentation = 0);
     }
 }

@@ -218,7 +218,7 @@ namespace UnitTests
         {
             Expression expression = parseStatement("(a -> int, b -> FakeClass) = (4, p);");
 
-            TupleAssignmentExpression a = assertTypeAndCast<TupleAssignmentExpression>(expression);
+            TupleDeclarationAssignmentExpression a = assertTypeAndCast<TupleDeclarationAssignmentExpression>(expression);
             Assert.AreEqual(2, a.names.members.Count);
 
             Assert.AreEqual("a", a.names.members[0].name);

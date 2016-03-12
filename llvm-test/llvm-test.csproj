@@ -70,7 +70,7 @@
     <Compile Include="Parsing\Expressions\Arithmetic\MultiplicationExpression.cs" />
     <Compile Include="Parsing\Expressions\Arithmetic\NegativeExpression.cs" />
     <Compile Include="Parsing\Expressions\Arithmetic\SubtractionExpression.cs" />
-    <Compile Include="Parsing\Expressions\Assignment\TupleAssignmentExpression.cs" />
+    <Compile Include="Parsing\Expressions\Assignment\TupleDeclarationAssignmentExpression.cs" />
     <Compile Include="Parsing\Expressions\Assignment\VariableAssignmentExpression.cs" />
     <Compile Include="Parsing\Expressions\Assignment\VariableDeclarationAssignmentExpression.cs" />
     <Compile Include="Parsing\Expressions\BinaryInfixExpression.cs" />
@@ -84,11 +84,13 @@
     <Compile Include="Parsing\Expressions\Literal\BooleanLiteralExpression.cs" />
     <Compile Include="Parsing\Expressions\Literal\IntegralLiteralExpression.cs" />
     <Compile Include="Parsing\Expressions\Literal\StringLiteralExpression.cs" />
+    <Compile Include="Parsing\Expressions\Logical\EqualToExpression.cs" />
     <Compile Include="Parsing\Expressions\Logical\GreaterThanExpression.cs" />
     <Compile Include="Parsing\Expressions\Logical\LessThanExpression.cs" />
     <Compile Include="Parsing\Expressions\Logical\LogicalNotExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\ClassDefinitionExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\GenericClassDefinitionExpression.cs" />
+    <Compile Include="Parsing\Expressions\Names\IfExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\VariableDeclarationExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\VariableReferenceExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\WhileLoopExpression.cs" />

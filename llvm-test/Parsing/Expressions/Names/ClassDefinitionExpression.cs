@@ -18,5 +18,21 @@ namespace llvm_test.Parsing.Expressions.Names
             this.members = members;
             this.visibility = visibility;
         }
+
+        public override string print(int indentation = 0)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append('\t', indentation);
+            b.AppendFormat("(Class Definition [name = {0}, visibility = {1}])", name, visibility).AppendLine();
+            b.Append('\t', indentation);
+            b.AppendLine("[Members]");
+
+            foreach (Expression member in members)
+            {
+                b.Append(member.print(indentation + 1));
+            }
+
+            return b.ToString();
+        }
     }
 }

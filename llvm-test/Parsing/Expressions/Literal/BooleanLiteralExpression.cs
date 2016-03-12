@@ -13,5 +13,14 @@ namespace llvm_test.Parsing.Expressions.Literal
         {
             this.value = value;
         }
+
+        public override string print(int indentation = 0)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append('\t', indentation);
+            b.AppendFormat("(Boolean Literal [value = {0}])", value).AppendLine();
+
+            return b.ToString();
+        }
     }
 }

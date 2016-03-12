@@ -20,5 +20,20 @@ namespace llvm_test.Parsing.Expressions.Functions
             this.returnType = returnType;
             this.body = body;
         }
+
+        public override string print(int indentation = 0)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append('\t', indentation);
+            b.AppendFormat("(Anonymous Function Definition [return type = {2}])", returnType.print()).AppendLine();
+            b.Append('\t', indentation);
+            b.AppendLine("[Parameters]");
+            b.Append(arguments.print(indentation + 1));
+            b.Append('\t', indentation);
+            b.AppendLine("[Body]");
+            b.Append(body.print(indentation + 1));
+
+            return b.ToString();
+        }
     }
 }

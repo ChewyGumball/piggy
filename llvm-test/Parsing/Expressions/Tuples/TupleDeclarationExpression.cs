@@ -14,5 +14,17 @@ namespace llvm_test.Parsing.Expressions.Tuples
         {
             this.members = members;
         }
+
+        public override string print(int indentation = 0)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append('\t', indentation);
+            b.AppendFormat("(Tuple Declaration [length = {0}])", members.Count).AppendLine();
+            b.Append('\t', indentation);
+            b.AppendLine("[Members]");
+            members.ForEach(member => b.Append(member.print(indentation + 1)));
+
+            return b.ToString();
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace llvm_test.Parsing.Parslets
         {   
             if(left is TupleDeclarationExpression)
             {
-                return new TupleAssignmentExpression(left as TupleDeclarationExpression, p.parseExpression(0));
+                return new TupleDeclarationAssignmentExpression(left as TupleDeclarationExpression, p.parseExpression(0));
             }
             else if(left is VariableReferenceExpression)
             {

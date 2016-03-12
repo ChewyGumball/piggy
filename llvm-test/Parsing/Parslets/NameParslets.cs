@@ -18,6 +18,7 @@ namespace llvm_test.Parsing.Parslets
         private static Dictionary<String, Func<Parser, Token, Expression>> keywordParslets = new Dictionary<string, Func<Parser, Token, Expression>>
         {
             { "while", whileLoop },
+            { "if", ifParser },
             { "class",  classParser },
             { "public", visibilityParser },
             { "protected", visibilityParser },
@@ -60,6 +61,21 @@ namespace llvm_test.Parsing.Parslets
             else
             {
                 return new VariableReferenceExpression(t.value);
+            }
+        }
+
+        private static IfExpression ifParser(Parser p, Token t)
+        {
+            Expression condition = p.parseExpression(0);
+            Expression body = p.parseExpression(0);
+
+            if(body is BlockExpression)
+            {
+                return new IfExpression(condition, body as BlockExpression);
+            }
+            else
+            {
+                throw new Exception("No block for if statement");
             }
         }
 
