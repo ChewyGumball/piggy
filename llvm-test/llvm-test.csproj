@@ -89,6 +89,7 @@
     <Compile Include="Parsing\Expressions\Logical\LessThanExpression.cs" />
     <Compile Include="Parsing\Expressions\Logical\LogicalNotExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\ClassDefinitionExpression.cs" />
+    <Compile Include="Parsing\Expressions\Names\FunctionCallExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\GenericClassDefinitionExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\IfExpression.cs" />
     <Compile Include="Parsing\Expressions\Names\VariableDeclarationExpression.cs" />

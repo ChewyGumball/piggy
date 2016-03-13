@@ -113,7 +113,11 @@ namespace llvm_test.Parsing.Parslets
                 }
                 else
                 {
-                    throw new Exception("Function has invalid argument list!");
+                    if (!(arguments is TupleDefinitionExpression))
+                    {
+                        arguments = new TupleDefinitionExpression(new List<Expression>() { arguments });
+                    }
+                    return new FunctionCallExpression((left as VariableReferenceExpression).name, arguments as TupleDefinitionExpression);
                 }
             }
             else

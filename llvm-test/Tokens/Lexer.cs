@@ -115,7 +115,7 @@ namespace llvm_test
                 {
                     tokens.Enqueue(new Token(Token.SymbolTable[tokenValue], tokenValue, lineNumber, columnNumber, preceedingWhiteSpace));
                 }
-                else if (digitChecker.IsMatch(tokenValue))
+                else if (digitChecker.IsMatch(tokenValue) || isHexadecimal(tokenValue))
                 {
                     tokens.Enqueue(new Token(TokenType.Number, tokenValue, lineNumber, columnNumber, preceedingWhiteSpace));
                 }
@@ -132,6 +132,30 @@ namespace llvm_test
             {
                 tokens.Enqueue(new Token(TokenType.End, "", lineNumber, columnNumber, preceedingWhiteSpace));
             }
+        }
+
+        private bool isHexadecimal(String token)
+        {
+            if(token.Length > 2)
+            {
+                char[] tokenAsChars = token.ToCharArray();
+                if(tokenAsChars[0] == '0' && tokenAsChars[1] == 'x')
+                {
+                    for(int i = 2; i < tokenAsChars.Length; i++)
+                    {
+                        char c = tokenAsChars[i];
+                        if(!((c >= '0' && c <= '9') ||
+                             (c >= 'a' && c <= 'f') ||
+                             (c >= 'A' && c <= 'F')))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

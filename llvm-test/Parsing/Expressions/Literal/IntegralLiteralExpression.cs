@@ -18,7 +18,7 @@ namespace llvm_test.Parsing.Expressions.Literal
         {
             StringBuilder b = new StringBuilder();
             b.Append('\t', indentation);
-            b.AppendFormat("(Integral Literal [value = {0}])", value).AppendLine();
+            b.AppendFormat("(Integral Literal [value = {0}, hex value = 0x{0:x16}])", value).AppendLine();
 
             return b.ToString();
         }

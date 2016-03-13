@@ -19,7 +19,7 @@ namespace llvm_test.Parsing.Parslets
 
         public static Expression numberLiteral(Parser p, Token t)
         {
-            return new IntegralLiteralExpression(Convert.ToInt64(t.value));
+            return new IntegralLiteralExpression(t.value.StartsWith("0x") ? Convert.ToInt64(t.value.Substring(2), 16) : Convert.ToInt64(t.value));
         }
         public static Expression stringLiteral(Parser p, Token t)
         {
