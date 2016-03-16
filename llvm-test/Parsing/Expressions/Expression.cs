@@ -8,7 +8,6 @@ namespace llvm_test.Parsing.Expressions
 {
     public abstract class Expression : Visitable<Expression>
     {
-        public ExpressionType type { get; protected set; }
         public void accept(Visitor<Expression> visitor)
         {
             visitor.visit((dynamic)this);

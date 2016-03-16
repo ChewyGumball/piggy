@@ -55,6 +55,8 @@ namespace llvm_test.Tokens
             { TokenType.End, -1 },
             { TokenType.SemiColon, -1 },
             { TokenType.Comma, -1 },
+            { TokenType.LeftAngleBracket, -1 },
+            { TokenType.RightAngleBracket, -1 },
             { TokenType.Plus, 40},
             { TokenType.Dash, 40},
             { TokenType.Star, 50},

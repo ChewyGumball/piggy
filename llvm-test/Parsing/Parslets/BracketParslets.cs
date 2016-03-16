@@ -17,6 +17,12 @@ namespace llvm_test.Parsing.Parslets
     {
         public static Expression roundBacketRouter(Parser p, Token t)
         {
+            //Empty tuple
+            if(p.skipIf(TokenType.RightRoundBracket))
+            {
+                return new TupleDefinitionExpression(new List<Expression>());
+            }
+
             Expression innerExpression = p.parseExpression(0);
             if(p.peek(TokenType.Comma))
             {
@@ -161,6 +167,7 @@ namespace llvm_test.Parsing.Parslets
 
             if (!p.peek(TokenType.RightAngleBracket))
             {
+                p.skipIf(TokenType.Comma);
                 do
                 {
                     Token innerToken = p.consume();
@@ -184,7 +191,7 @@ namespace llvm_test.Parsing.Parslets
                     {
                         throw new Exception("Generic type is not a name!");
                     }
-                } while (p.peek(TokenType.Comma));
+                } while (p.skipIf(TokenType.Comma));
             }
 
             if (p.skip(TokenType.RightAngleBracket))

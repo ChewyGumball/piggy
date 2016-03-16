@@ -23,12 +23,36 @@ namespace llvm_test.Parsing.Parslets
             { "public", visibilityParser },
             { "protected", visibilityParser },
             { "private", visibilityParser },
-            { "new", objectInstantiation }
+            { "new", objectInstantiation },
+            { "return", returnParser }
         };
 
-        private static Expression objectInstantiation(Parser arg1, Token arg2)
+        private static Expression returnParser(Parser p, Token t)
         {
-            throw new NotImplementedException();
+            return new ReturnExpression(p.parseExpression(0));
+        }
+
+        private static Expression objectInstantiation(Parser p, Token t)
+        {
+            TypeName type = DashParslets.getTypeName(p);
+
+            if (p.peek(TokenType.LeftRoundBracket))
+            {
+                Expression arguments = p.parseExpression(0);
+
+                if (arguments is TupleDefinitionExpression)
+                {
+                    return new ClassInstantiationExpression(type, arguments as TupleDefinitionExpression);
+                }
+                else
+                {
+                    return new ClassInstantiationExpression(type, new TupleDefinitionExpression(new List<Expression> { arguments }));
+                }
+            }           
+            else
+            {
+                throw new Exception("Missing parameter list for class instantiation!");
+            }
         }
 
         private static Dictionary<String, Visibility> visibility = new Dictionary<string, Visibility>

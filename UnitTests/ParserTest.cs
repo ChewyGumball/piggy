@@ -361,7 +361,7 @@ namespace UnitTests
                 foopy(a -> int, b -> Banana) -> String {
                     a = 5;
                 }
-            ");
+            }");
             ClassDefinitionExpression a = assertTypeAndCast<ClassDefinitionExpression>(expression);
             Assert.AreEqual("Test", a.name);
             Assert.AreEqual(4, a.members.Count);

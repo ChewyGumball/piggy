@@ -89,6 +89,17 @@ namespace llvm_test.Parsing
             return tokenStream.peek().preceedingWhiteSpace == requiredWhiteSpace;
         }
 
+        public bool skipIf(TokenType t)
+        {
+            bool skipped = peek(t);
+            if(skipped)
+            {
+                tokenStream.consume();
+            }
+
+            return skipped;
+        }
+
         public bool skip(TokenType t)
         {
             return tokenStream.consume().type == t;
